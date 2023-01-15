@@ -16,8 +16,6 @@ index2.ts
 ===========
 import { fileFormatting } from "./commonFun/utilityFun";
 
-
-
 const pathForUsersAboveFiftyJsonFile = './outputData/usersAboveFifty.json'
 const pathForEmployeesJsonFile = './outputData/employees.json'
 const pathForUsersFilteredByCountry = './outputData/usersFilteredByCountry.json'

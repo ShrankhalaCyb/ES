@@ -1,30 +1,40 @@
 
 import { Readable } from "stream";
+
 /* Custom readable stream class for users */
 export class UserStream extends Readable {
-    jsonArray: any[];
+    userArray: any[];
     si: number;
     ei: number;
 
-    constructor(jsonArray: any[]) {
+    constructor(userArray: any[]) {
         super({ encoding: 'utf-8' });
-        this.jsonArray = jsonArray;
+        this.userArray = userArray;
         this.si = 0
         this.ei = 10
 
     }
-/* read method breaks our data into smaller chunks , these smaller chunks are pushed to the stream */
+    /* read method breaks our data into smaller chunks , these smaller chunks are pushed to the stream */
     _read() {
-        if (this.ei <= this.jsonArray.length) {
-            let chunk = []
-            for (let i = this.si; i < this.ei; i++) {
-                chunk.push(this.jsonArray[i])
+
+        if (this.ei <= this.userArray.length) {
+
+            let chunk = [], isFirst = false, isLast = false, i;
+
+            //isFirst and isLast flag are pointers that tells fileProcessor if the chunk sent is first or last
+            (this.si == 0) ? isFirst = true : isFirst = false
+            for (i = this.si; i < this.ei; i++) {
+                chunk.push(this.userArray[i])
             }
             this.si = this.ei
-            this.ei += 10
-            this.push(JSON.stringify(chunk))
+            this.ei += 10;
+
+            (i >= this.userArray.length) ? isLast = true : isLast = false
+
+            this.push(JSON.stringify({ arr: chunk, isFirst: isFirst, isLast: isLast }))
         }
         else {
+            /* to end the stream push null  */
             this.push(null)
         }
 

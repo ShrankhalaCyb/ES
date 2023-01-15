@@ -1,8 +1,8 @@
 import { log } from "console"
-import { usersType } from "../types/types"
+import { usersType } from "../dataTypes/types"
 
 /*  get all users who are employees */
-export function getEmployeesPromise(usersArray: usersType[]): Promise<usersType[] | string> {
+export function getEmployeesPromise(usersArray: usersType[]): Promise<usersType[] | string > {
     let users: usersType[] = []
 
     return new Promise((resolve, reject) => {
