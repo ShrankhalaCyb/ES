@@ -9,16 +9,25 @@ const { log, error } = console
 
 /* to execute this file run - npx ts-node src/index.ts in terminal */
 
+console.log("hi")
+
+filterUserRecords(OutputFilePath.pathForUsersAboveFiftyJsonFile, OutputFilePath.pathForEmployeesJsonFile, OutputFilePath.pathForUsersFilteredByCountry)
 
 
+removeLastCommaFromInvalidJSON(OutputFilePath.pathForEmployeesJsonFile)
+removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersAboveFiftyJsonFile)
+removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersFilteredByCountry)
+
+/* 
 const filterRecordsPromise = promisify(filterUserRecords)
 filterRecordsPromise(OutputFilePath.pathForUsersAboveFiftyJsonFile, OutputFilePath.pathForEmployeesJsonFile, OutputFilePath.pathForUsersFilteredByCountry)
 .then(()=>{
-     removeLastCommaFromInvalidJSON(OutputFilePath.pathForEmployeesJsonFile)
+    log("After file processing")
+    removeLastCommaFromInvalidJSON(OutputFilePath.pathForEmployeesJsonFile)
      removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersAboveFiftyJsonFile)
      removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersFilteredByCountry)
 })
-.catch((err)=> error(err))
+.catch((err)=> error(err)) */
 
 
 

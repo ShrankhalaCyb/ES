@@ -31,7 +31,7 @@ export class UserStream extends Readable {
 
             (i >= this.userArray.length) ? isLast = true : isLast = false
 
-            this.push(JSON.stringify({ arr: chunk, isFirst: isFirst, isLast: isLast }))
+            this.push(JSON.stringify({ smallArray: chunk, isFirst: isFirst, isLast: isLast }))
         }
         else {
             /* to end the stream push null  */

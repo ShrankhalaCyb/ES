@@ -15,16 +15,16 @@ export function filterUserRecords(pathForUsersAboveFiftyJsonFile: string, pathFo
 
         let prefix = "", postfix = ""
         let chunk = JSON.parse(dataChunk)
-        console.log(chunk.isFirst, chunk.isLast)
-        chunk.isFirst ? (prefix = "[") : (prefix = "")
-        chunk.isLast ? (postfix = "]") : (postfix = ",")
+        // console.log(chunk.isFirst, chunk.isLast)
+       /*  chunk.isFirst ? (prefix = "[") : (prefix = "")
+        chunk.isLast ? (postfix = "]") : (postfix = ",") */
 
         /* get all users above age 50 */
-        getUsersAboveFiftyAgePromise((chunk.arr))
+        getUsersAboveFiftyAgePromise((chunk.smallArray))
             .then(data => {
                 if (data.length > 0) {
-                    fs.appendFile(pathForUsersAboveFiftyJsonFile, prefix + JSON.stringify(data).slice(1, -1) + postfix, err => {
-                        log(prefix , postfix)
+                    fs.appendFile(pathForUsersAboveFiftyJsonFile, JSON.stringify(data).slice(1, -1) + ",", err => {
+                        // log(prefix , postfix)
                         if (err) error(err)
                     })
                 }
@@ -33,10 +33,10 @@ export function filterUserRecords(pathForUsersAboveFiftyJsonFile: string, pathFo
 
 
         /* get all users who are employees */
-        getEmployeesPromise((chunk.arr))
+        getEmployeesPromise((chunk.smallArray))
             .then((data) => {
                 if (data.length > 0) {
-                    fs.appendFile(pathForEmployeesJsonFile, prefix + JSON.stringify(data).slice(1, -1) + postfix, err => {
+                    fs.appendFile(pathForEmployeesJsonFile,  JSON.stringify(data).slice(1, -1) + ",", err => {
                         if (err) error(err)
                     })
                 }
@@ -44,9 +44,9 @@ export function filterUserRecords(pathForUsersAboveFiftyJsonFile: string, pathFo
             .catch((err) => error(err))
 
         /* get all users who are from USA */
-        getUsersByCountry((chunk.arr), 'USA').then((data) => {
+        getUsersByCountry((chunk.smallArray), 'USA').then((data) => {
             if (data.length > 0) {
-                fs.appendFile(pathForUsersFilteredByCountry, prefix + JSON.stringify(data).slice(1, -1) + postfix, err => {
+                fs.appendFile(pathForUsersFilteredByCountry,  JSON.stringify(data).slice(1, -1) + ",", err => {
                     if (err) error(err)
                 })
             }
