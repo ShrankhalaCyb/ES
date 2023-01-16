@@ -1,33 +1,13 @@
-import { OutputFilePath } from './config/outputFilePath';
-import { promisify } from "util";
-import { removeLastCommaFromInvalidJSON } from "./commonFun/utilityFun";
+
 import { filterUserRecords } from './fileProcessor/jsonFileProcessor';
 
 
-const { log, error } = console
 
 
-/* to execute this file run - npx ts-node src/index.ts in terminal */
-
-console.log("hi")
-
-filterUserRecords(OutputFilePath.pathForUsersAboveFiftyJsonFile, OutputFilePath.pathForEmployeesJsonFile, OutputFilePath.pathForUsersFilteredByCountry)
+filterUserRecords()
 
 
-removeLastCommaFromInvalidJSON(OutputFilePath.pathForEmployeesJsonFile)
-removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersAboveFiftyJsonFile)
-removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersFilteredByCountry)
 
-/* 
-const filterRecordsPromise = promisify(filterUserRecords)
-filterRecordsPromise(OutputFilePath.pathForUsersAboveFiftyJsonFile, OutputFilePath.pathForEmployeesJsonFile, OutputFilePath.pathForUsersFilteredByCountry)
-.then(()=>{
-    log("After file processing")
-    removeLastCommaFromInvalidJSON(OutputFilePath.pathForEmployeesJsonFile)
-     removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersAboveFiftyJsonFile)
-     removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersFilteredByCountry)
-})
-.catch((err)=> error(err)) */
 
 
 

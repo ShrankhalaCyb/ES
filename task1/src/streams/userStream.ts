@@ -22,16 +22,16 @@ export class UserStream extends Readable {
             let chunk = [], isFirst = false, isLast = false, i;
 
             //isFirst and isLast flag are pointers that tells fileProcessor if the chunk sent is first or last
-            (this.si == 0) ? isFirst = true : isFirst = false
+            // (this.si == 0) ? isFirst = true : isFirst = false
             for (i = this.si; i < this.ei; i++) {
                 chunk.push(this.userArray[i])
             }
             this.si = this.ei
             this.ei += 10;
 
-            (i >= this.userArray.length) ? isLast = true : isLast = false
-
-            this.push(JSON.stringify({ smallArray: chunk, isFirst: isFirst, isLast: isLast }))
+            // (i >= this.userArray.length) ? isLast = true : isLast = false
+            //  console.log(JSON.stringify(chunk))
+            this.push(JSON.stringify(chunk))
         }
         else {
             /* to end the stream push null  */
@@ -40,5 +40,3 @@ export class UserStream extends Readable {
 
     }
 }
-
-

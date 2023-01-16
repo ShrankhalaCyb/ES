@@ -787,7 +787,7 @@
             "name": "neha",
             "email": "neha@gmail.com",
             "age": 27,
-            "isEmployee": false,
+            "isEmployee": true,
             "country": "UK",
             "id": 99
         },
@@ -795,16 +795,8 @@
             "name": "niti",
             "email": "niti@gmail.com",
             "age": 27,
-            "isEmployee": false,
+            "isEmployee": true,
             "country": "UK",
             "id": 100
-        },
-        {
-            "name": "ajay",
-            "email": "ajay@gmail.com",
-            "age": 27,
-            "isEmployee": false,
-            "country": "UK",
-            "id": 101
         }
     ]
