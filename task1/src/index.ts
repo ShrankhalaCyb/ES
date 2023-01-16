@@ -1,11 +1,24 @@
 
+import { createReadStream } from 'fs';
 import { filterUserRecords } from './fileProcessor/jsonFileProcessor';
 
 
 
 
-filterUserRecords()
+ filterUserRecords()
 
+
+
+/* const readStream = createReadStream('./src/inputData/users.json', { highWaterMark: 16 });
+const data = [];
+
+readStream.on('data', (chunk) => {
+    data.push(chunk);
+    console.log(chunk.toString());
+
+    console.log()
+
+}); */
 
 
 

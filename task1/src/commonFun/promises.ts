@@ -1,41 +1,26 @@
-import { log } from "console"
 import { usersType } from "../dataTypes/types"
 
 /*  get all users who are employees */
-export function getEmployeesPromise(usersArray: usersType[]): Promise<usersType[] | string > {
+export function getEmployeesPromise(usersArray: usersType[]): Promise<usersType[] > {
     let users: usersType[] = []
 
     return new Promise((resolve, reject) => {
         if (usersArray.length != 0) {
-            for (let index = 0; index < usersArray.length; index++) {
-                {
-                    if (usersArray[index].isEmployee == true)
-                        users.push(usersArray[index])
-                }
-                // log(users)
-                resolve(users)
-            }
+            users = usersArray.filter((singleUser) => singleUser.isEmployee === true)
+            resolve(users)
         }
-
-        else {
-            reject("Data not present")
-        }
+        else  reject("Data not present")
     })
 }
 
 /* get all users above age 50 */
-export function getUsersAboveFiftyAgePromise(usersArray: usersType[]): Promise<usersType[] | string> {
+export function getUsersByAgePromise(usersArray: usersType[],age:number): Promise<usersType[]> {
     let users: usersType[] = []
 
     return new Promise((resolve, reject) => {
         if (usersArray.length != 0) {
-            for (let index = 0; index < usersArray.length; index++) {
-                {
-                    if (usersArray[index].age > 50)
-                        users.push(usersArray[index])
-                }
-                resolve(users)
-            }
+            users = usersArray.filter((singleUser) => singleUser.age>age)
+            resolve(users)  
         }
         else {
             reject("Data not present")
@@ -44,19 +29,14 @@ export function getUsersAboveFiftyAgePromise(usersArray: usersType[]): Promise<u
 }
 
 /* get all users by country passed as argument */
-export function getUsersByCountry(usersArray: usersType[],country:string): Promise<usersType[] | string> {
+export function getUsersByCountryPromise(usersArray: usersType[],country:string): Promise<usersType[]> {
     let users: usersType[] = []
 
     return new Promise((resolve, reject) => {
         if (usersArray.length != 0) {
-            for (let index = 0; index < usersArray.length; index++) {
-                {
-                    if (usersArray[index].country.toLowerCase()==country.toLowerCase() )
-                        users.push(usersArray[index])
-                }
+                users = usersArray.filter((singleUser) => singleUser.country.toLowerCase() === country.toLowerCase())
                 resolve(users)
             }
-        }
         else {
             reject("Data not present")
         }

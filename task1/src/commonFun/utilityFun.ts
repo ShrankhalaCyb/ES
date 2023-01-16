@@ -1,8 +1,19 @@
 import { error } from "console"
-import { readFile, writeFile } from "fs"
+import { readFile, writeFile, createWriteStream } from "fs"
 import { promisify } from "util"
 
 
+
+
+export function writeToJsonFile(path: string, data: any) {
+    let writer = createWriteStream(path)
+    console.log(path + " started " + new Date().getTime())
+    writer.write(JSON.stringify(data));
+    writer.end(console.log((path + " ended " + new Date().getTime())))
+}
+
+
+//not used right now
 const readFilePromise = promisify(readFile)
 const writeFilePromise = promisify(writeFile)
 /* Data is processed in chunks which is smaller size of array , the resulting data that is written in the file is not in correct json format

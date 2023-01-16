@@ -3,4 +3,4 @@ import { OutputFilePath } from "./config/outputFilePath";
 
 removeLastCommaFromInvalidJSON(OutputFilePath.pathForEmployeesJsonFile)
 removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersAboveFiftyJsonFile)
-    removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersFilteredByCountry)
+removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersFilteredByCountry)

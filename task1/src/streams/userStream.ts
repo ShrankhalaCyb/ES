@@ -1,4 +1,3 @@
-
 import { Readable } from "stream";
 
 /* Custom readable stream class for users */

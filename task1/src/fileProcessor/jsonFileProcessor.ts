@@ -1,15 +1,18 @@
 import { OutputFilePath } from './../config/outputFilePath';
 import { UserStream } from "../streams/userStream"
 import users from '../inputData/users.json';
-import { getUsersAboveFiftyAgePromise, getEmployeesPromise, getUsersByCountry } from "../commonFun/promises";
-import fs from "fs";
-import { removeLastCommaFromInvalidJSON } from '../commonFun/utilityFun';
+import { getUsersByAgePromise, getEmployeesPromise, getUsersByCountryPromise } from "../commonFun/promises";
+import fs, { write } from "fs";
+import { removeLastCommaFromInvalidJSON, writeToJsonFile } from '../commonFun/utilityFun';
+import { usersType } from '../dataTypes/types';
 
 
 const { log, error } = console
 
 
+
 export function filterUserRecords() {
+    let usersByAge: usersType[] = [], employees: usersType[] = [], usersOfCountry: usersType[] = []
     const userStream = new UserStream(users)
 
     /* data is recieved in smaller chunks (event-data) */
@@ -17,59 +20,32 @@ export function filterUserRecords() {
 
         let prefix = "", postfix = ""
         let chunk = JSON.parse(dataChunk)
-        // console.log(chunk.isFirst, chunk.isLast)
-        /*  chunk.isFirst ? (prefix = "[") : (prefix = "")
-         chunk.isLast ? (postfix = "]") : (postfix = ",") */
 
-        /* get all users above age 50 */
-        getUsersAboveFiftyAgePromise((chunk))
-            .then(data => {
-                if (data.length > 0) {
-                    fs.appendFile(OutputFilePath.pathForUsersAboveFiftyJsonFile, JSON.stringify(data).slice(1, -1) + ",", err => {
-                        // log(prefix , postfix)
-                        if (err) error(err)
-                    })
-                }
+        Promise.all([getUsersByAgePromise(chunk, 50), getEmployeesPromise(chunk), getUsersByCountryPromise(chunk, 'USA')])
+            .then((results) => {
+                if (results[0].length > 0) usersByAge.push(...results[0])
+                if (results[1].length > 0) employees.push(...results[1])
+                if (results[2].length > 0) usersOfCountry.push(...results[2])
             })
-            .catch(err => error(err))
+            .catch(err => log(err))
 
-
-        /* get all users who are employees */
-        getEmployeesPromise((chunk))
-            .then((data) => {
-                if (data.length > 0) {
-                    fs.appendFile(OutputFilePath.pathForEmployeesJsonFile, JSON.stringify(data).slice(1, -1) + ",", err => {
-                        if (err) error(err)
-                    })
-                }
-            })
-            .catch((err) => error(err))
-
-        /* get all users who are from USA */
-        getUsersByCountry((chunk), 'USA').then((data) => {
-            if (data.length > 0) {
-                fs.appendFile(OutputFilePath.pathForUsersFilteredByCountry, JSON.stringify(data).slice(1, -1) + ",", err => {
-                    if (err) error(err)
-                })
-            }
-        })
-            .catch((err) => error(err))
     })
 
     userStream.on('end', () => {
         log("Stream ended")
+
     })
 
-
+    setTimeout(() => {
+        console.log("write operation started " + new Date().getTime())
+        writeToJsonFile(OutputFilePath.pathForEmployeesJsonFile, employees)
+        writeToJsonFile(OutputFilePath.pathForUsersFilteredByAgeJsonFile, usersByAge)
+        writeToJsonFile(OutputFilePath.pathForUsersFilteredByCountry, usersOfCountry)
+    }, 5000)
 
 }
 
-setTimeout(() => {
-    log("After file processing")
-    removeLastCommaFromInvalidJSON(OutputFilePath.pathForEmployeesJsonFile)
-    removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersAboveFiftyJsonFile)
-    removeLastCommaFromInvalidJSON(OutputFilePath.pathForUsersFilteredByCountry)
-}, 5000)
+
 
 
 
